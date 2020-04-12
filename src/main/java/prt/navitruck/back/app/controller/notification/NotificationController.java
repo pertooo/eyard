@@ -1,4 +1,4 @@
-package prt.navitruck.back.app.controller;
+package prt.navitruck.back.app.controller.notification;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -17,7 +17,7 @@ import prt.navitruck.back.app.service.AndroidPushNotificationsService;
 
 @RestController
 @RequestMapping("/api/notification")
-public class WebController {
+public class NotificationController {
 
     private final String TOPIC = "'11214' in topics";
 
@@ -37,8 +37,14 @@ public class WebController {
         notification.put("body", "Happy Message!");
 
         JSONObject data = new JSONObject();
-        data.put("Key-1", "JSA Data 1");
-        data.put("Key-2", "JSA Data 2");
+
+        data.put("addressFrom", "2871 Cropsey Av. AP #1, Brooklyn, NY, US 11214");
+        data.put("addressTo", "6421 George Washington Av. 1/3, New York, Manhattan, US 45123");
+
+        data.put("loadTime", "4/11/2020 16:00");
+        data.put("unloadTime", "6/11/2020 10:00");
+
+        data.put("price", "925");
 
       //  body.put("notification", notification);
         body.put("data", data);

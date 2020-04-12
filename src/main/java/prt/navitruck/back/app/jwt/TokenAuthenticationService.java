@@ -58,7 +58,6 @@ public class TokenAuthenticationService {
                 .compact();
 
         response.addHeader(headerString, tokenPrefix + " " + JWT);
-        response.setStatus(1);
 
 
         service.setValue( JWT, auth.getPrincipal(), TimeUnit.SECONDS, EXPIRATIONTIME, true);
