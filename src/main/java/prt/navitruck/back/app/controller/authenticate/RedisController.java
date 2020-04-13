@@ -2,7 +2,7 @@ package prt.navitruck.back.app.controller.authenticate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import prt.navitruck.back.app.domain.AuthenticationTokenImpl;
+import prt.navitruck.back.app.domain.AuthTokenImpl;
 import prt.navitruck.back.app.repository.redis.RedisRepositoryImpl;
 
 import javax.servlet.http.HttpServletResponse;
@@ -26,7 +26,7 @@ public class RedisController {
 
     @GetMapping("/all")
     @CrossOrigin(origins = "http://192.168.100.100:9090")
-    public Map<String, String> all(AuthenticationTokenImpl auth, HttpServletResponse response) {
+    public Map<String, String> all(AuthTokenImpl auth, HttpServletResponse response) {
    //     System.out.println(auth.getHash());
 
         return testRepository.findAll();

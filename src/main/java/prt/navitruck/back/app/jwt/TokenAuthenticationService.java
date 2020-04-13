@@ -12,7 +12,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.token.Sha512DigestUtils;
-import prt.navitruck.back.app.domain.AuthenticationTokenImpl;
+import prt.navitruck.back.app.domain.AuthTokenImpl;
 import prt.navitruck.back.app.service.RedisService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -43,7 +43,7 @@ public class TokenAuthenticationService {
         secret = Sha512DigestUtils.shaHex(key);
     }
 
-    public void addAuthentication(HttpServletResponse response, AuthenticationTokenImpl auth) {
+    public void addAuthentication(HttpServletResponse response, AuthTokenImpl auth) {
         // We generate a token now.
         Map<String, Object> claims = new HashMap<>();
         claims.put("username", auth.getPrincipal());
@@ -91,7 +91,7 @@ public class TokenAuthenticationService {
                 String user =  service.getValue(token);
 
                 if (user != null) {
-                    AuthenticationTokenImpl auth = new AuthenticationTokenImpl(username, Collections.emptyList());
+                    AuthTokenImpl auth = new AuthTokenImpl(username, Collections.emptyList());
                     auth.authenticate();
                     return auth;
                 } else {

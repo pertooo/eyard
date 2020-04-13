@@ -11,8 +11,9 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import prt.navitruck.back.app.domain.AuthenticationTokenImpl;
-import prt.navitruck.back.app.domain.SessionUser;
+import prt.navitruck.back.app.domain.AuthTokenImpl;
+
+import prt.navitruck.back.app.domain.UserSession;
 import prt.navitruck.back.app.service.RedisService;
 
 import java.util.Collections;
@@ -41,10 +42,10 @@ public class AuthenticationProviderImpl implements org.springframework.security.
 
         //Right now just authenticate on the basis of the user=pass
         if (username.equalsIgnoreCase(password)) {
-            SessionUser u = new SessionUser();
+            UserSession u = new UserSession();
             u.setUsername(username);
             u.setCreated(new Date());
-            AuthenticationTokenImpl auth = new AuthenticationTokenImpl(u.getUsername(), Collections.emptyList());
+            AuthTokenImpl auth = new AuthTokenImpl(u.getUsername(), Collections.emptyList());
             auth.setAuthenticated(true);
             auth.setDetails(u);
 

@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import prt.navitruck.back.app.domain.AuthenticationTokenImpl;
+import prt.navitruck.back.app.domain.AuthTokenImpl;
 import prt.navitruck.back.app.service.RedisService;
 
 import javax.servlet.http.HttpServletResponse;
@@ -23,17 +23,17 @@ public class UserResourceController {
     private RedisService service;
 
     @RequestMapping(method = RequestMethod.GET)
-    public String getName(AuthenticationTokenImpl auth, HttpServletResponse response) {
+    public String getName(AuthTokenImpl auth, HttpServletResponse response) {
         return auth.getPrincipal().toString();
     }
 
     @RequestMapping(value = "/processor", method = RequestMethod.GET)
-    public Integer getProcessor(AuthenticationTokenImpl auth, HttpServletResponse response) {
+    public Integer getProcessor(AuthTokenImpl auth, HttpServletResponse response) {
         return Runtime.getRuntime().availableProcessors();
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public String logout(AuthenticationTokenImpl auth, HttpServletResponse response) {
+    public String logout(AuthTokenImpl auth, HttpServletResponse response) {
         service.setValue(auth.getPrincipal().toString().toLowerCase(), "");
         return "Logout Successfully";
     }

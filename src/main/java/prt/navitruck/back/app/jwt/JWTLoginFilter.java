@@ -12,8 +12,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import prt.navitruck.back.app.domain.AuthenticationTokenImpl;
-import prt.navitruck.back.app.domain.SessionUser;
+import prt.navitruck.back.app.domain.AuthTokenImpl;
+import prt.navitruck.back.app.domain.UserSession;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -37,7 +37,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest httpServletRequest, HttpServletResponse hsr1) throws AuthenticationException, IOException, ServletException {
-        SessionUser credentials = new ObjectMapper().readValue(httpServletRequest.getInputStream(), SessionUser.class);
+        UserSession credentials = new ObjectMapper().readValue(httpServletRequest.getInputStream(), UserSession.class);
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(credentials.getUsername(), credentials.getPassword());
         return getAuthenticationManager().authenticate(token);
     }
@@ -46,7 +46,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication)
             throws IOException, ServletException {
         
-        AuthenticationTokenImpl auth = (AuthenticationTokenImpl) authentication;
+        AuthTokenImpl auth = (AuthTokenImpl) authentication;
         tokenAuthenticationService.addAuthentication(response, auth); 
     }
 }
