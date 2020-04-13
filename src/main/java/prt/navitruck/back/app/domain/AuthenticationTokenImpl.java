@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package prt.navitruck.back.app.model.domain;
+package prt.navitruck.back.app.domain;
 
 import lombok.Setter;
 import lombok.ToString;

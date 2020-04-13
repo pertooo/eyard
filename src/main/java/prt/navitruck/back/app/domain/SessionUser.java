@@ -1,5 +1,5 @@
 
-package prt.navitruck.back.app.model.domain;
+package prt.navitruck.back.app.domain;
 
 import lombok.Data;
 

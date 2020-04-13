@@ -25,7 +25,8 @@ public abstract class AbstractEntity implements Serializable {
 
     @PrePersist
     void onCreate() {
-        this.setTimestamp(DateCreatedUpdate.builder().created(LocalDateTime.now()).build());
+        this.setTimestamp(DateCreatedUpdate.builder()
+                .created(LocalDateTime.now()).build());
     }
 
     @PreUpdate

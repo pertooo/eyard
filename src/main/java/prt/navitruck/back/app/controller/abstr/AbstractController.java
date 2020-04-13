@@ -1,9 +1,5 @@
 package prt.navitruck.back.app.controller.abstr;
 
-import prt.navitruck.back.app.config.QueryCfg;
-import prt.navitruck.back.app.dto.ResponseDTO;
-import prt.navitruck.back.app.model.entity.abstr.AbstractEntity;
-import prt.navitruck.back.app.repository.abstr.AbstractRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +13,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+
+import prt.navitruck.back.app.config.QueryCfg;
+import prt.navitruck.back.app.model.entity.abstr.AbstractEntity;
+import prt.navitruck.back.app.repository.abstr.AbstractRepository;
+import prt.navitruck.back.app.model.dto.ResponseDTO;
+
+
+
 
 @Slf4j
 @MappedSuperclass

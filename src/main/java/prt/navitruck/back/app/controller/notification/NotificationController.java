@@ -49,21 +49,6 @@ public class NotificationController {
       //  body.put("notification", notification);
         body.put("data", data);
 
-/**
- {
- "notification": {
- "title": "JSA Notification",
- "body": "Happy Message!"
- },
- "data": {
- "Key-1": "JSA Data 1",
- "Key-2": "JSA Data 2"
- },
- "to": "/topics/JavaSampleApproach",
- "priority": "high"
- }
- */
-
         HttpEntity<String> request = new HttpEntity<>(body.toString());
 
         CompletableFuture<String> pushNotification = androidPushNotificationsService.send(request);
@@ -81,4 +66,6 @@ public class NotificationController {
 
         return new ResponseEntity<>("Push Notification ERROR!", HttpStatus.BAD_REQUEST);
     }
+
+
 }

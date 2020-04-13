@@ -11,8 +11,8 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import prt.navitruck.back.app.model.domain.AuthenticationTokenImpl;
-import prt.navitruck.back.app.model.domain.SessionUser;
+import prt.navitruck.back.app.domain.AuthenticationTokenImpl;
+import prt.navitruck.back.app.domain.SessionUser;
 import prt.navitruck.back.app.service.RedisService;
 
 import java.util.Collections;

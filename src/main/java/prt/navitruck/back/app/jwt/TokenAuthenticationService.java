@@ -9,12 +9,10 @@ package prt.navitruck.back.app.jwt;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.token.Sha512DigestUtils;
-import org.springframework.stereotype.Service;
-import prt.navitruck.back.app.model.domain.AuthenticationTokenImpl;
+import prt.navitruck.back.app.domain.AuthenticationTokenImpl;
 import prt.navitruck.back.app.service.RedisService;
 
 import javax.servlet.http.HttpServletRequest;

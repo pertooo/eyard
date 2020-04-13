@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import prt.navitruck.back.app.controller.TaskController;
 import prt.navitruck.back.app.jwt.TokenAuthenticationService;
 import prt.navitruck.back.app.service.RedisService;
 
