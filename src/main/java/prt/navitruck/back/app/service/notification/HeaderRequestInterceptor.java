@@ -1,4 +1,4 @@
-package prt.navitruck.back.app.service;
+package prt.navitruck.back.app.service.notification;
 
 import java.io.IOException;
 

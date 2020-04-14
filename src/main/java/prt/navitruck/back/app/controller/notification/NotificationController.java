@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import prt.navitruck.back.app.service.AndroidPushNotificationsService;
+import prt.navitruck.back.app.service.notification.AndroidPushNotificationsService;
 
 
 @RestController

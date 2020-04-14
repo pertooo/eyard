@@ -1,6 +1,7 @@
 package prt.navitruck.back.app.model.entity.abstr;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Builder;
 import prt.navitruck.back.app.model.entity.embeddable.DateCreatedUpdate;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,6 +23,9 @@ public abstract class AbstractEntity implements Serializable {
     @Embedded
     @JsonIgnore
     private DateCreatedUpdate timestamp;
+
+    protected AbstractEntity() {
+    }
 
     @PrePersist
     void onCreate() {

@@ -1,4 +1,4 @@
-package prt.navitruck.back.app.service;
+package prt.navitruck.back.app.service.mail;
 
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;

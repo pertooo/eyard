@@ -9,11 +9,9 @@ package prt.navitruck.back.app.config;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -25,7 +23,7 @@ import org.springframework.web.filter.CorsFilter;
 import prt.navitruck.back.app.jwt.JWTAuthenticationFilter;
 import prt.navitruck.back.app.jwt.JWTLoginFilter;
 import prt.navitruck.back.app.jwt.TokenAuthenticationService;
-import prt.navitruck.back.app.service.RedisService;
+import prt.navitruck.back.app.service.redis.RedisService;
 
 import java.util.Arrays;
 

@@ -3,7 +3,7 @@ package prt.navitruck.back.app.controller;
 
 import org.springframework.web.bind.annotation.ResponseBody;
 import prt.navitruck.back.app.network.HttpClient;
-import prt.navitruck.back.app.service.MailService;
+import prt.navitruck.back.app.service.mail.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

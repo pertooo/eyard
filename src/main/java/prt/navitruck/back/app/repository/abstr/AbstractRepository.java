@@ -9,8 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 
-@Transactional
+
 @NoRepositoryBean
-public interface AbstractRepository<T extends AbstractEntity, ID extends Serializable> extends JpaRepository<T, ID>, JpaSpecificationExecutor<T> {
+public interface AbstractRepository<T extends AbstractEntity, ID extends Serializable>
+        extends JpaRepository<T, ID>, JpaSpecificationExecutor<T> { //
 
 }

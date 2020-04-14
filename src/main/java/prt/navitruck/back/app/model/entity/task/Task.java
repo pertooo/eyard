@@ -1,23 +1,21 @@
-package prt.navitruck.back.app.model.entity;
+package prt.navitruck.back.app.model.entity.task;
 
 import lombok.*;
 import prt.navitruck.back.app.model.entity.abstr.AbstractEntity;
 import prt.navitruck.back.app.model.entity.embeddable.DateCreatedUpdate;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.PrePersist;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "task")
 public class Task extends AbstractEntity {
+
 
     @Column(name = "address_from", nullable = false)
     private String addressFrom;
@@ -34,15 +32,8 @@ public class Task extends AbstractEntity {
     @Column(name = "weight", nullable = false)
     private double weight;
 
-    @Column(name = "fee", nullable = true)
+    @Column(name = "fee", nullable = true, columnDefinition = "Decimal(10,2)")
     private double fee;
 
-    @PrePersist
-    void onCreate() {
-        if(pickupTime == null)
-            this.setPickupTime(LocalDateTime.now());
-        if(unloadTime == null)
-            this.setUnloadTime(LocalDateTime.now());
-    }
 
 }

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import prt.navitruck.back.app.domain.AuthTokenImpl;
-import prt.navitruck.back.app.service.RedisService;
+import prt.navitruck.back.app.service.redis.RedisService;
 
 import javax.servlet.http.HttpServletResponse;
 

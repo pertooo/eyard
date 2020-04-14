@@ -13,7 +13,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.token.Sha512DigestUtils;
 import prt.navitruck.back.app.domain.AuthTokenImpl;
-import prt.navitruck.back.app.service.RedisService;
+import prt.navitruck.back.app.service.redis.RedisService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

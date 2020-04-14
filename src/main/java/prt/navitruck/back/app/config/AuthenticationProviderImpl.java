@@ -14,7 +14,7 @@ import org.springframework.security.core.AuthenticationException;
 import prt.navitruck.back.app.domain.AuthTokenImpl;
 
 import prt.navitruck.back.app.domain.UserSession;
-import prt.navitruck.back.app.service.RedisService;
+import prt.navitruck.back.app.service.redis.RedisService;
 
 import java.util.Collections;
 import java.util.Date;
