@@ -15,7 +15,9 @@ import prt.navitruck.back.app.serviceImpl.task.TaskServiceImpl;
 import prt.navitruck.back.app.serviceImpl.user.UserServiceImpl;
 import prt.navitruck.back.app.utils.Constants;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/task")
@@ -36,10 +38,11 @@ public class TaskController extends AbstractController<Task, Long> {
     }
 
     @PostMapping("/accept")
-    public ResponseEntity accept(@RequestParam long taskid,
+    public ResponseEntity accept(@RequestParam long taskId,
+                                 @RequestParam long userId,
                                  @RequestParam double fee) {
 
-        Task task = taskService.getTask(taskid);
+        Task task = taskService.getTask(taskId);
         User user = userService.getUser(1l);
         System.out.println("Task task - "+task.getAddressFrom());
 
@@ -59,16 +62,52 @@ public class TaskController extends AbstractController<Task, Long> {
 
         }
 
-//        try{
-//            TimeUnit.SECONDS.sleep(30);
-//
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
+        try{
+            TimeUnit.SECONDS.sleep(30);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
 
         return ResponseEntity.ok(ResponseDTO.builder().success(true).build());
     }
 
+
+
+    @PostMapping("/assign")
+    public ResponseEntity assign(@RequestParam long userId,
+                                 @RequestParam long taskId) {
+
+        try{
+            int ret = taskUserJoinService.assignUserToTask(userId, taskId);
+            System.out.println("assign ret "+ret);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return ResponseEntity.ok(ResponseDTO.builder().success(true).build());
+    }
+
+    @PostMapping("/assignById")
+    public ResponseEntity accept(@RequestParam long id) {
+
+        try{
+            TaskUserJoin taskUserJoin = taskUserJoinService.getOne(id);
+            taskUserJoin.getTimestamp().setUpdated(LocalDateTime.now());
+
+            if(taskUserJoin!=null){
+                taskUserJoin = taskUserJoinService.update(taskUserJoin);
+                System.out.println("assign taskUserJoin.getTask().getAddressFrom() "+taskUserJoin.getTask().getAddressFrom());
+
+
+
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return ResponseEntity.ok(ResponseDTO.builder().success(true).build());
+    }
 
 }

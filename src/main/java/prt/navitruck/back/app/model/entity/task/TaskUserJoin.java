@@ -8,6 +8,7 @@ import prt.navitruck.back.app.model.entity.User;
 import prt.navitruck.back.app.model.entity.abstr.AbstractEntity;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Setter
 @Getter
@@ -30,6 +31,7 @@ public class TaskUserJoin extends AbstractEntity {
     @JoinColumn
     private User user;
 
-    @Column(name = "task_given", nullable = false)
-    private boolean given;
+    @Column(name = "assigned_to_user", nullable = false)
+    private boolean assigned;
+
 }
