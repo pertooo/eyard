@@ -21,15 +21,13 @@ public class TaskUserJoinServiceImpl implements TaskUserJoinService {
     }
 
     @Override
-    public TaskUserJoin save(TaskUserJoin taskUserJoin) {
-        return taskUserJoinRepository.save(taskUserJoin);
+    public TaskUserJoin getAssignedByTask(Task task) {
+        return taskUserJoinRepository.findByTaskAndAssigned(task, true);
     }
 
-
     @Override
-    @Transactional
-    public int assignUserToTask(long userId, long taskId) {
-        return taskUserJoinRepository.setAssigned(userId, taskId);
+    public TaskUserJoin save(TaskUserJoin taskUserJoin) {
+        return taskUserJoinRepository.save(taskUserJoin);
     }
 
     @Override
@@ -37,4 +35,12 @@ public class TaskUserJoinServiceImpl implements TaskUserJoinService {
     public TaskUserJoin update(TaskUserJoin taskUserJoin) {
         return taskUserJoinRepository.save(taskUserJoin);
     }
+
+    @Override
+    @Transactional
+    public int assignUserToTask(long userId, long taskId) {
+        return taskUserJoinRepository.setAssigned(userId, taskId);
+    }
+
+
 }

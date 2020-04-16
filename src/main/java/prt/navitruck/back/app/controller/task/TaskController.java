@@ -32,6 +32,10 @@ public class TaskController extends AbstractController<Task, Long> {
     @Autowired
     private TaskUserJoinService taskUserJoinService;
 
+    private static int attempt = 0;
+    private final int maxAttempts = 3;
+    private final int threadSleepDelay = 15;
+
     @Autowired
     public TaskController(TaskRepository repository) {
         super(repository);
@@ -62,17 +66,47 @@ public class TaskController extends AbstractController<Task, Long> {
 
         }
 
+        TaskUserJoin taskUserJoin = getAssignedAfterDelay(task);
+
+        if(taskUserJoin!=null){ //exists and return success
+
+            if(true) {//TODO check if taskUserJoin is for current user
+                return ResponseEntity.ok(ResponseDTO.builder().success(true).content(Constants.TaskStatusObj.ASSIGNED).build());
+            }else{
+                return ResponseEntity.ok(ResponseDTO.builder().success(true).content(Constants.TaskStatusObj.ASSIGNED_TO_OTHER).build());
+            }
+
+        }else{ //return response needs more time
+            return ResponseEntity.ok(ResponseDTO.builder().success(true).content(Constants.TaskStatusObj.NOT_ASSIGNED).build());
+        }
+
+    }
+
+    private TaskUserJoin getAssignedAfterDelay(Task task){
+        threadSleep();
+
+        TaskUserJoin taskUserJoin = taskUserJoinService.getAssignedByTask(task);
+        System.out.println("getAssignedAfterDelay after delay taskUserJoin - "+taskUserJoin.getTask().getId());
+
+        if(taskUserJoin!=null){
+            return  taskUserJoin;
+        }else{ // wait for more  until 5 attempts
+            if(attempt<maxAttempts){
+                attempt++;
+                getAssignedAfterDelay(task);
+            }
+        }
+        return null;
+    }
+
+    private void threadSleep(){
         try{
-            TimeUnit.SECONDS.sleep(30);
+            TimeUnit.SECONDS.sleep(threadSleepDelay);
 
         }catch (Exception e){
             e.printStackTrace();
         }
-
-
-        return ResponseEntity.ok(ResponseDTO.builder().success(true).build());
     }
-
 
 
     @PostMapping("/assign")

@@ -1,5 +1,6 @@
 package prt.navitruck.back.app.repository.task;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -13,4 +14,7 @@ public interface TaskUserJoinRepository extends AbstractRepository<TaskUserJoin,
     @Modifying
     @Query("update TaskUserJoin t set t.assigned = true where t.user.id = :userId and t.task.id = :taskId")
     int setAssigned(@Param("userId") Long userId, @Param("taskId") Long taskId);
+
+    TaskUserJoin findByTaskAndAssigned(Task task, Boolean assigned);
+
 }

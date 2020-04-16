@@ -27,6 +27,19 @@ public class Constants {
         HTTP_REQUEST
     }
 
+    public enum TaskStatusObj{
+
+        ASSIGNED(1),
+        ASSIGNED_TO_OTHER(2),
+        NOT_ASSIGNED(3);
+
+        private int statusCode;
+        TaskStatusObj(int statusCode) {
+            this.statusCode = statusCode;
+        }
+
+    }
+
     public enum ErrorObj {
         NONE(0),
         BAD_REQUEST(400),
@@ -107,10 +120,6 @@ public class Constants {
         public static final String VALUE = "value";
     }
 
-    public static class ReportingTools {
-        public static final String[] TRANSACTION_STATUS = {"დაიწყო", "დასრულდა", "გაუთვალისწინებელი ხარჯი"};
-        public static final String[] PAYMENT_TYPES = {"ყიდვა ბალანსიდან", "შეძენა/გამოყენება აბონიმენტი", "ქეში", "ვიზა", "ქეში/ვიზა", "სალარო", "ბანკი"};
-        public static final String[] TRANSACTION_TYPES = {"შემავალი", "გამავალი"};
-    }
+
 
 }
