@@ -3,6 +3,7 @@ package prt.navitruck.back.app.controller.task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import prt.navitruck.back.app.config.QueryCfg;
 import prt.navitruck.back.app.controller.abstr.AbstractController;
 import prt.navitruck.back.app.model.dto.ResponseDTO;
@@ -41,6 +42,17 @@ public class TaskController extends AbstractController<Task, Long> {
         super(repository);
     }
 
+    @RequestMapping(method = { RequestMethod.POST, RequestMethod.PUT },
+            consumes = { "multipart/form-data" })
+    public ResponseEntity updateStatus(@RequestParam("files") MultipartFile[] files,
+                                       @RequestParam long taskId,
+                                       @RequestParam long userId) {
+
+        System.out.println("updateStatus");
+
+        return ResponseEntity.ok(ResponseDTO.builder().success(true).build());
+    }
+
     @PostMapping("/accept")
     public ResponseEntity accept(@RequestParam long taskId,
                                  @RequestParam long userId,
@@ -57,16 +69,20 @@ public class TaskController extends AbstractController<Task, Long> {
             try{
                 taskUserJoinService.save(new TaskUserJoin(task, user));
             }catch (Exception e){
-                errors.add(e.getMessage());
-                ResponseEntity.ok(ResponseDTO.builder()
-                        .success(false)
-                        .errors(errors).build());
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             }
 
         }
 
-        TaskUserJoin taskUserJoin = getAssignedAfterDelay(task);
+        TaskUserJoin taskUserJoin = null;
+
+        try{
+            taskUserJoin = getAssignedAfterDelay(task);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+
 
         if(taskUserJoin!=null){ //exists and return success
 
@@ -75,6 +91,7 @@ public class TaskController extends AbstractController<Task, Long> {
             }else{
                 return ResponseEntity.ok(ResponseDTO.builder().success(true).content(Constants.TaskStatusObj.ASSIGNED_TO_OTHER).build());
             }
+
 
         }else{ //return response needs more time
             return ResponseEntity.ok(ResponseDTO.builder().success(true).content(Constants.TaskStatusObj.NOT_ASSIGNED).build());
@@ -86,7 +103,6 @@ public class TaskController extends AbstractController<Task, Long> {
         threadSleep();
 
         TaskUserJoin taskUserJoin = taskUserJoinService.getAssignedByTask(task);
-        System.out.println("getAssignedAfterDelay after delay taskUserJoin - "+taskUserJoin.getTask().getId());
 
         if(taskUserJoin!=null){
             return  taskUserJoin;
