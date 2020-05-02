@@ -3,10 +3,8 @@ package prt.navitruck.back.app.controller.task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import prt.navitruck.back.app.config.QueryCfg;
 import prt.navitruck.back.app.controller.abstr.AbstractController;
-import prt.navitruck.back.app.model.dto.ResponseDTO;
+import prt.navitruck.back.app.model.response.ResponseDTO;
 import prt.navitruck.back.app.model.entity.User;
 import prt.navitruck.back.app.model.entity.task.Task;
 import prt.navitruck.back.app.model.entity.task.TaskUserJoin;
@@ -42,17 +40,25 @@ public class TaskController extends AbstractController<Task, Long> {
         super(repository);
     }
 
-    @RequestMapping(method = { RequestMethod.POST, RequestMethod.PUT },
-            consumes = { "multipart/form-data" })
-    public ResponseEntity updateStatus(@RequestParam("files") MultipartFile[] files,
-                                       @RequestParam long taskId,
-                                       @RequestParam long userId) {
+//    @RequestMapping(method = { RequestMethod.POST, RequestMethod.PUT },
+//            consumes = { "multipart/form-data" } , path = "update_status")
+//    public ResponseEntity updateStatus(@RequestParam("files") MultipartFile[] files,
+//                                       @RequestParam long taskId,
+//                                       @RequestParam long userId) {
+//
+//        System.out.println("updateStatus");
+//
+//        return ResponseEntity.ok(ResponseDTO.builder().success(true).build());
+//    }
+
+    @PostMapping("/update_status")
+    public ResponseEntity updateStatus(@RequestParam long taskId,
+                                 @RequestParam long userId) {
 
         System.out.println("updateStatus");
 
         return ResponseEntity.ok(ResponseDTO.builder().success(true).build());
     }
-
     @PostMapping("/accept")
     public ResponseEntity accept(@RequestParam long taskId,
                                  @RequestParam long userId,

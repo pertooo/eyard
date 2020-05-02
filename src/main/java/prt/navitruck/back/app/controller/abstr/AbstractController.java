@@ -18,7 +18,7 @@ import java.util.Optional;
 import prt.navitruck.back.app.config.QueryCfg;
 import prt.navitruck.back.app.model.entity.abstr.AbstractEntity;
 import prt.navitruck.back.app.repository.abstr.AbstractRepository;
-import prt.navitruck.back.app.model.dto.ResponseDTO;
+import prt.navitruck.back.app.model.response.ResponseDTO;
 
 
 
@@ -37,8 +37,8 @@ public abstract class AbstractController<T extends AbstractEntity, ID extends Se
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     @ResponseBody
-    public List<T> all(){
-        return repository.findAll();
+    public ResponseEntity all(){
+        return ResponseEntity.ok(ResponseDTO.builder().success(true).content(repository.findAll()).build());
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)

@@ -1,4 +1,4 @@
-package prt.navitruck.back.app.model.dto;
+package prt.navitruck.back.app.model.response;
 
 import prt.navitruck.back.app.utils.Constants;
 import lombok.AllArgsConstructor;
