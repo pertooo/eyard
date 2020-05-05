@@ -43,11 +43,12 @@ public abstract class AbstractController<T extends AbstractEntity, ID extends Se
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
-    public Page<T> list(@PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable){
+    public Page<T> list(@PageableDefault(sort = {"id"},  direction = Sort.Direction.DESC) Pageable pageable){
+
         return repository.findAll(pageable);
     }
 
-    @PostMapping("/put")
+    @PutMapping("/put")
     public ResponseEntity save(@RequestBody T obj) {
         T savedObject = repository.save(obj);
         if (savedObject != null) {
@@ -75,14 +76,14 @@ public abstract class AbstractController<T extends AbstractEntity, ID extends Se
 
     @GetMapping("/s")
     public Page searchQuery(@RequestParam String q, @PageableDefault Pageable pageable) {
-        if (!this.getFilterFields().isEmpty()) {
-            return null; //repository.findAll(GenericSpecification.query(filterFields,q), pageable);
-        }
+//        if (!this.getFilterFields().isEmpty()) {
+//            return null; //repository.findAll(GenericSpecification.query(filterFields,q), pageable);
+//        }
         return null;
     }
 
-    public List<QueryCfg> getFilterFields() {
-        return filterFields;
-    }
+//    public List<QueryCfg> getFilterFields() {
+//        return filterFields;
+//    }
 
 }

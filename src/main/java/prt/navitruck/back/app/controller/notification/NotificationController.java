@@ -19,6 +19,7 @@ import prt.navitruck.back.app.service.notification.AndroidPushNotificationsServi
 @RequestMapping("/api/notification")
 public class NotificationController {
 
+
     private final String TOPIC = "'11214' in topics";
 
     @Autowired

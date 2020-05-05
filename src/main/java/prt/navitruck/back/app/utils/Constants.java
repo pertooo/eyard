@@ -5,6 +5,8 @@ import java.io.File;
 public class Constants {
 
     public static final String empty_string = "";
+    private final String TOPIC = "'11214' in topics";
+
 
     public static final class UploadHelpers {
         private static final String HOME = String.format("%s%s", System.getProperty("user.home"), File.separator);

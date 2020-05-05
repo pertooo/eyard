@@ -1,14 +1,18 @@
 package prt.navitruck.back.app.controller.task;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import prt.navitruck.back.app.controller.abstr.AbstractController;
+import prt.navitruck.back.app.controller.notification.NotificationController;
 import prt.navitruck.back.app.model.response.ResponseDTO;
 import prt.navitruck.back.app.model.entity.User;
 import prt.navitruck.back.app.model.entity.task.Task;
 import prt.navitruck.back.app.model.entity.task.TaskUserJoin;
 import prt.navitruck.back.app.repository.task.TaskRepository;
+import prt.navitruck.back.app.service.notification.AndroidPushNotificationsService;
 import prt.navitruck.back.app.service.task.TaskUserJoinService;
 import prt.navitruck.back.app.serviceImpl.task.TaskServiceImpl;
 import prt.navitruck.back.app.serviceImpl.user.UserServiceImpl;
@@ -16,6 +20,7 @@ import prt.navitruck.back.app.utils.Constants;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
 @RestController
@@ -31,6 +36,9 @@ public class TaskController extends AbstractController<Task, Long> {
     @Autowired
     private TaskUserJoinService taskUserJoinService;
 
+    @Autowired
+    AndroidPushNotificationsService androidPushNotificationsService;
+
     private static int attempt = 0;
     private final int maxAttempts = 3;
     private final int threadSleepDelay = 15;
@@ -40,7 +48,29 @@ public class TaskController extends AbstractController<Task, Long> {
         super(repository);
     }
 
-//    @RequestMapping(method = { RequestMethod.POST, RequestMethod.PUT },
+    @PutMapping("/save")
+    public ResponseEntity save(@RequestBody Task task) {
+        Task savedObject = taskService.saveTask(task);
+
+        if(task.isSendImmediately()) { // send notification
+            try {
+                JSONObject body = taskService.buildJsonFromTask(savedObject);
+                HttpEntity<String> request = new HttpEntity<>(body.toString());
+
+                CompletableFuture<String> pushNotification = androidPushNotificationsService.send(request);
+                CompletableFuture.allOf(pushNotification).join();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+
+        if (savedObject != null) {
+            return ResponseEntity.ok(ResponseDTO.builder().success(true).build());
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    //    @RequestMapping(method = { RequestMethod.POST, RequestMethod.PUT },
 //            consumes = { "multipart/form-data" } , path = "update_status")
 //    public ResponseEntity updateStatus(@RequestParam("files") MultipartFile[] files,
 //                                       @RequestParam long taskId,

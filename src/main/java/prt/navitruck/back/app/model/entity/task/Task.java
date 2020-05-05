@@ -35,5 +35,12 @@ public class Task extends AbstractEntity {
     @Column(name = "fee", nullable = true, columnDefinition = "Decimal(10,2)")
     private double fee;
 
+    @Transient
+    private String pickupTimeStr;
 
+    @Transient
+    private String unloadTimeStr;
+
+    @Transient
+    private boolean sendImmediately;
 }
