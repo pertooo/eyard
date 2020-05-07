@@ -12,23 +12,26 @@ import javax.persistence.Table;
 @Setter
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "dictionary")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Dictionary extends AbstractEntity {
 
-    @Column(name = "OPERATION_KEY", nullable = false)
-    private String opKey;
+    @Column(name = "OBJ_KEY", nullable = false)
+    private String objKey;
 
-    @Column(name = "OPERATION_VALUE_ENG")
-    private String opValueEng;
+    @Column(name = "OBJ_PARENT_ID")
+    private long objParentID;
 
-    @Column(name = "OPERATION_VALUE_GEO")
-    private String opValueGeo;
+    @Column(name = "OBJ_PARENT_KEY")
+    private String objParentKey;
+
+    @Column(name = "OBJ_VALUE")
+    private String objValue;
 
     @Column(name = "ROW_NUM")
     private int rowNum;
 
-    public Dictionary() {
-    }
+
 }

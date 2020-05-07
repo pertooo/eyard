@@ -5,7 +5,9 @@ import java.io.File;
 public class Constants {
 
     public static final String empty_string = "";
-    private final String TOPIC = "'11214' in topics";
+    public final String TOPIC = "'11214' in topics";
+
+    public final String COMBO_KEY_MAKE = "car_make";
 
 
     public static final class UploadHelpers {
@@ -27,6 +29,18 @@ public class Constants {
     public enum ExceptionType{
         GLOBAL_RUNTIME,
         HTTP_REQUEST
+    }
+
+    public enum TruckType{
+        VAN,
+        TRUCK;
+
+    }
+
+    public enum BodyType{
+        SOFT,
+        HARD;
+
     }
 
     public enum TaskStatusObj{
