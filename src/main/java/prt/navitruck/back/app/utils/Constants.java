@@ -5,9 +5,10 @@ import java.io.File;
 public class Constants {
 
     public static final String empty_string = "";
-    public final String TOPIC = "'11214' in topics";
+    public static final String TOPIC = "'11214' in topics";
 
-    public final String COMBO_KEY_MAKE = "car_make";
+    public static final String COMBO_KEY_MAKE = "car_make";
+    public static final String COMBO_KEY_MODEL = "car_model";
 
 
     public static final class UploadHelpers {
@@ -32,14 +33,30 @@ public class Constants {
     }
 
     public enum TruckType{
-        VAN,
-        TRUCK;
+        VAN(1, "Van"),
+        TRUCK(2, "Truck");
+
+        private int key;
+        private String name;
+
+        TruckType(int key, String name) {
+            this.key = key;
+            this.name = name;
+        }
 
     }
 
     public enum BodyType{
-        SOFT,
-        HARD;
+        SOFT(1, "Soft"),
+        HARD(2, "Hard");
+
+        private int key;
+        private String name;
+
+        BodyType(int key, String name) {
+            this.key = key;
+            this.name = name;
+        }
 
     }
 

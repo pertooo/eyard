@@ -21,16 +21,16 @@ public class TruckParams extends AbstractEntity {
     private String paramName;
 
     @Column(name = "max_weight", nullable = true)
-    private double maxWeight;
+    private int maxWeight;
 
     @Column(name = "length", nullable = true)
-    private double length;
+    private int length;
 
     @Column(name = "width", nullable = true)
-    private double width;
+    private int width;
 
     @Column(name = "height", nullable = true)
-    private double height;
+    private int height;
 
 
 }

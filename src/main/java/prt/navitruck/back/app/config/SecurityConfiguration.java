@@ -70,6 +70,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/task/**").permitAll()
                 .antMatchers("/truck_user/**").permitAll()
                 .antMatchers("/truck/**").permitAll()
+                .antMatchers("/main/**").permitAll()
                 .antMatchers("/combo/**").permitAll()
                 .anyRequest().authenticated()
                 .and()

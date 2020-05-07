@@ -37,14 +37,45 @@ public class ComboController {
 
     @RequestMapping(value = "/getMake", method = RequestMethod.GET)
     public ResponseEntity getMake() {
-        System.out.println("getMake");
         try{
-            List<ComboDTO> list = comboService.getComboByKey("car_make");
+            List<ComboDTO> list = comboService.getComboByKey(Constants.COMBO_KEY_MAKE);
             return ResponseEntity.ok(ResponseDTO.builder().success(true).content(list).build());
         }catch (Exception e){
             e.printStackTrace();
         }
         return ResponseEntity.ok(ResponseDTO.builder().success(false).build());
+    }
 
+    @RequestMapping(value = "/getModel", method = RequestMethod.GET)
+    public ResponseEntity getModel(@RequestParam int parentId) {
+        try{
+            List<ComboDTO> list = comboService.getComboByKeyAndParentId(Constants.COMBO_KEY_MODEL, parentId);
+            return ResponseEntity.ok(ResponseDTO.builder().success(true).content(list).build());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return ResponseEntity.ok(ResponseDTO.builder().success(false).build());
+    }
+
+    @RequestMapping(value = "/getTruckType", method = RequestMethod.GET)
+    public ResponseEntity getTruckType() {
+        try{
+            List<ComboDTO> list = comboService.getComboTruckType();
+            return ResponseEntity.ok(ResponseDTO.builder().success(true).content(list).build());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return ResponseEntity.ok(ResponseDTO.builder().success(false).build());
+    }
+
+    @RequestMapping(value = "/getBodyType", method = RequestMethod.GET)
+    public ResponseEntity getBodyType() {
+        try{
+            List<ComboDTO> list = comboService.getComboBodyType();
+            return ResponseEntity.ok(ResponseDTO.builder().success(true).content(list).build());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return ResponseEntity.ok(ResponseDTO.builder().success(false).build());
     }
 }

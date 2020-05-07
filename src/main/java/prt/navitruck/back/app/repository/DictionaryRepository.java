@@ -14,4 +14,9 @@ public interface DictionaryRepository extends AbstractRepository<Dictionary, Lon
     @Query("select new prt.navitruck.back.app.model.dto.ComboDTO(d.id, d.objValue) from Dictionary d" +
             " where d.objKey = :key")
     List<ComboDTO> getComboByKey(@Param("key") String key);
+
+    @Query("select new prt.navitruck.back.app.model.dto.ComboDTO(d.id, d.objValue) from Dictionary d" +
+            " where d.objParentID = :parentId and d.objKey = :key")
+    List<ComboDTO> getComboByKeyAndParentId(@Param("key") String key,
+                                            @Param("parentId") long parentId);
 }
