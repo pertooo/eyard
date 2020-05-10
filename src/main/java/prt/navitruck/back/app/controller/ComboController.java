@@ -9,6 +9,7 @@ import prt.navitruck.back.app.model.entity.truck.TruckParams;
 import prt.navitruck.back.app.model.response.ResponseDTO;
 import prt.navitruck.back.app.service.ComboService;
 import prt.navitruck.back.app.service.truck.TruckParametersService;
+import prt.navitruck.back.app.service.truck.TruckService;
 import prt.navitruck.back.app.utils.Constants;
 
 import java.util.List;
@@ -21,12 +22,27 @@ public class ComboController {
     ComboService comboService;
 
     @Autowired
+    TruckService truckService;
+
+    @Autowired
     TruckParametersService truckParametersService;
 
     @RequestMapping(value = "/getTruckParams", method = RequestMethod.GET)
     public ResponseEntity getTruckParams() {
         try{
             List<TruckParams> list = truckParametersService.getAll();
+            return ResponseEntity.ok(ResponseDTO.builder().success(true).content(list).build());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return ResponseEntity.ok(ResponseDTO.builder().success(false).build());
+
+    }
+
+    @RequestMapping(value = "/getTrucks", method = RequestMethod.GET)
+    public ResponseEntity getTrucks() {
+        try{
+            List<ComboDTO> list = truckService.getCombo();
             return ResponseEntity.ok(ResponseDTO.builder().success(true).content(list).build());
         }catch (Exception e){
             e.printStackTrace();

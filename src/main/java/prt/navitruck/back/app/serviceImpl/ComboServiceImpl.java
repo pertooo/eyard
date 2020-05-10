@@ -1,4 +1,4 @@
-package prt.navitruck.back.app.service;
+package prt.navitruck.back.app.serviceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

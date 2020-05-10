@@ -1,4 +1,4 @@
-package prt.navitruck.back.app.controller.task;
+package prt.navitruck.back.app.controller.cargo;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,15 +6,14 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import prt.navitruck.back.app.controller.abstr.AbstractController;
-import prt.navitruck.back.app.controller.notification.NotificationController;
 import prt.navitruck.back.app.model.response.ResponseDTO;
 import prt.navitruck.back.app.model.entity.User;
-import prt.navitruck.back.app.model.entity.task.Task;
-import prt.navitruck.back.app.model.entity.task.TaskUserJoin;
-import prt.navitruck.back.app.repository.task.TaskRepository;
+import prt.navitruck.back.app.model.entity.cargo.Cargo;
+import prt.navitruck.back.app.model.entity.cargo.CargoUserJoin;
+import prt.navitruck.back.app.repository.cargo.CargoRepository;
 import prt.navitruck.back.app.service.notification.AndroidPushNotificationsService;
-import prt.navitruck.back.app.service.task.TaskUserJoinService;
-import prt.navitruck.back.app.serviceImpl.task.TaskServiceImpl;
+import prt.navitruck.back.app.service.cargo.CargoUserJoinService;
+import prt.navitruck.back.app.serviceImpl.cargo.CargoServiceImpl;
 import prt.navitruck.back.app.serviceImpl.user.UserServiceImpl;
 import prt.navitruck.back.app.utils.Constants;
 
@@ -24,17 +23,17 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
 @RestController
-@RequestMapping("/task")
-public class TaskController extends AbstractController<Task, Long> {
+@RequestMapping("/cargo")
+public class CargoController extends AbstractController<Cargo, Long> {
 
     @Autowired
-    private TaskServiceImpl taskService;
+    private CargoServiceImpl cargoService;
 
     @Autowired
     private UserServiceImpl userService;
 
     @Autowired
-    private TaskUserJoinService taskUserJoinService;
+    private CargoUserJoinService cargoUserJoinService;
 
     @Autowired
     AndroidPushNotificationsService androidPushNotificationsService;
@@ -44,17 +43,17 @@ public class TaskController extends AbstractController<Task, Long> {
     private final int threadSleepDelay = 15;
 
     @Autowired
-    public TaskController(TaskRepository repository) {
+    public CargoController(CargoRepository repository) {
         super(repository);
     }
 
     @PutMapping("/save")
-    public ResponseEntity save(@RequestBody Task task) {
-        Task savedObject = taskService.saveTask(task);
+    public ResponseEntity save(@RequestBody Cargo cargo) {
+        Cargo savedObject = cargoService.saveCargo(cargo);
 
-        if(task.isSendImmediately()) { // send notification
+        if(cargo.isSendImmediately()) { // send notification
             try {
-                JSONObject body = taskService.buildJsonFromTask(savedObject);
+                JSONObject body = cargoService.buildJsonFromCargo(savedObject);
                 HttpEntity<String> request = new HttpEntity<>(body.toString());
 
                 CompletableFuture<String> pushNotification = androidPushNotificationsService.send(request);
@@ -82,7 +81,7 @@ public class TaskController extends AbstractController<Task, Long> {
 //    }
 
     @PostMapping("/update_status")
-    public ResponseEntity updateStatus(@RequestParam long taskId,
+    public ResponseEntity updateStatus(@RequestParam long cargoId,
                                  @RequestParam long userId) {
 
         System.out.println("updateStatus");
@@ -90,62 +89,62 @@ public class TaskController extends AbstractController<Task, Long> {
         return ResponseEntity.ok(ResponseDTO.builder().success(true).build());
     }
     @PostMapping("/accept")
-    public ResponseEntity accept(@RequestParam long taskId,
+    public ResponseEntity accept(@RequestParam long cargoId,
                                  @RequestParam long userId,
                                  @RequestParam double fee) {
 
-        Task task = taskService.getTask(taskId);
+        Cargo cargo = cargoService.getCargo(cargoId);
         User user = userService.getUser(1l);
-        System.out.println("Task task - "+task.getAddressFrom());
+        System.out.println("Task task - "+ cargo.getDeliveryTo());
 
         List<String> errors = null;
 
 
-        if(task!=null && user!=null){
+        if(cargo !=null && user!=null){
             try{
-                taskUserJoinService.save(new TaskUserJoin(task, user));
+                cargoUserJoinService.save(new CargoUserJoin(cargo, user));
             }catch (Exception e){
                 System.out.println(e.getMessage());
             }
 
         }
 
-        TaskUserJoin taskUserJoin = null;
+        CargoUserJoin cargoUserJoin = null;
 
         try{
-            taskUserJoin = getAssignedAfterDelay(task);
+            cargoUserJoin = getAssignedAfterDelay(cargo);
         }catch (Exception e){
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
 
 
-        if(taskUserJoin!=null){ //exists and return success
+        if(cargoUserJoin !=null){ //exists and return success
 
             if(true) {//TODO check if taskUserJoin is for current user
-                return ResponseEntity.ok(ResponseDTO.builder().success(true).content(Constants.TaskStatusObj.ASSIGNED).build());
+                return ResponseEntity.ok(ResponseDTO.builder().success(true).content(Constants.CargoStatusObj.ASSIGNED).build());
             }else{
-                return ResponseEntity.ok(ResponseDTO.builder().success(true).content(Constants.TaskStatusObj.ASSIGNED_TO_OTHER).build());
+                return ResponseEntity.ok(ResponseDTO.builder().success(true).content(Constants.CargoStatusObj.ASSIGNED_TO_OTHER).build());
             }
 
 
         }else{ //return response needs more time
-            return ResponseEntity.ok(ResponseDTO.builder().success(true).content(Constants.TaskStatusObj.NOT_ASSIGNED).build());
+            return ResponseEntity.ok(ResponseDTO.builder().success(true).content(Constants.CargoStatusObj.NOT_ASSIGNED).build());
         }
 
     }
 
-    private TaskUserJoin getAssignedAfterDelay(Task task){
+    private CargoUserJoin getAssignedAfterDelay(Cargo cargo){
         threadSleep();
 
-        TaskUserJoin taskUserJoin = taskUserJoinService.getAssignedByTask(task);
+        CargoUserJoin cargoUserJoin = cargoUserJoinService.getAssignedByCargo(cargo);
 
-        if(taskUserJoin!=null){
-            return  taskUserJoin;
+        if(cargoUserJoin !=null){
+            return cargoUserJoin;
         }else{ // wait for more  until 5 attempts
             if(attempt<maxAttempts){
                 attempt++;
-                getAssignedAfterDelay(task);
+                getAssignedAfterDelay(cargo);
             }
         }
         return null;
@@ -163,10 +162,10 @@ public class TaskController extends AbstractController<Task, Long> {
 
     @PostMapping("/assign")
     public ResponseEntity assign(@RequestParam long userId,
-                                 @RequestParam long taskId) {
+                                 @RequestParam long cargoId) {
 
         try{
-            int ret = taskUserJoinService.assignUserToTask(userId, taskId);
+            int ret = cargoUserJoinService.assignUserToCargo(userId, cargoId);
             System.out.println("assign ret "+ret);
         }catch (Exception e){
             e.printStackTrace();
@@ -179,12 +178,12 @@ public class TaskController extends AbstractController<Task, Long> {
     public ResponseEntity accept(@RequestParam long id) {
 
         try{
-            TaskUserJoin taskUserJoin = taskUserJoinService.getOne(id);
-            taskUserJoin.getTimestamp().setUpdated(LocalDateTime.now());
+            CargoUserJoin cargoUserJoin = cargoUserJoinService.getOne(id);
+            cargoUserJoin.getTimestamp().setUpdated(LocalDateTime.now());
 
-            if(taskUserJoin!=null){
-                taskUserJoin = taskUserJoinService.update(taskUserJoin);
-                System.out.println("assign taskUserJoin.getTask().getAddressFrom() "+taskUserJoin.getTask().getAddressFrom());
+            if(cargoUserJoin !=null){
+                cargoUserJoin = cargoUserJoinService.update(cargoUserJoin);
+                System.out.println("assign taskUserJoin.getTask().getAddressFrom() "+ cargoUserJoin.getCargo().getPickUpAt());
 
 
 

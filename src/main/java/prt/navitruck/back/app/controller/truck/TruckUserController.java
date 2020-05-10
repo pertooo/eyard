@@ -4,13 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import prt.navitruck.back.app.controller.abstr.AbstractController;
-import prt.navitruck.back.app.model.entity.task.Task;
 import prt.navitruck.back.app.model.entity.truck.TruckUser;
 import prt.navitruck.back.app.model.response.ResponseDTO;
 import prt.navitruck.back.app.repository.abstr.AbstractRepository;
-import prt.navitruck.back.app.repository.truck.TruckUserRepository;
 import prt.navitruck.back.app.service.truck.TruckUserService;
-import prt.navitruck.back.app.serviceImpl.task.TaskServiceImpl;
 
 @RestController
 @RequestMapping("truck_user")

@@ -60,14 +60,14 @@ public class Constants {
 
     }
 
-    public enum TaskStatusObj{
+    public enum CargoStatusObj {
 
         ASSIGNED(1),
         ASSIGNED_TO_OTHER(2),
         NOT_ASSIGNED(3);
 
         private int statusCode;
-        TaskStatusObj(int statusCode) {
+        CargoStatusObj(int cargoCode) {
             this.statusCode = statusCode;
         }
 

@@ -32,5 +32,8 @@ public class TruckParams extends AbstractEntity {
     @Column(name = "height", nullable = true)
     private int height;
 
+    public TruckParams(long id){
+        this.id = id;
+    }
 
 }
