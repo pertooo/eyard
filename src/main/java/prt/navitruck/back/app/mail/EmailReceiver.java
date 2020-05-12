@@ -110,37 +110,38 @@ public class EmailReceiver {
                         if (o2 instanceof String) {
                             System.out.println("Yuhuuu here is the string");
                             HtmlParser htmlParser = new HtmlParser(o2.toString());
-                            htmlParser.parseHtml();
+                            Thread t = new Thread(htmlParser);
+                            t.start();
                         }
 
                     }
 
                 }
 
-
-
-                if (contentType.contains("text/plain")
-                        || contentType.contains("text/html")) {
-                    try {
-                        Object content = msg.getContent();
-                        if (content != null) {
-                            messageContent = content.toString();
-                        }
-                    } catch (Exception ex) {
-                        messageContent = "[Error downloading content]";
-                        ex.printStackTrace();
-                    }
-                }
-
-                // print out details of each message
-                System.out.println("Message #" + (i + 1) + ":");
-                System.out.println("\t From: " + from);
-                System.out.println("\t To: " + toList);
-                System.out.println("\t CC: " + ccList);
-                System.out.println("\t Subject: " + subject);
-                System.out.println("\t Sent Date: " + sentDate);
-                System.out.println("\t Message: " + messageContent);
-
+//
+//
+//                if (contentType.contains("text/plain")
+//                        || contentType.contains("text/html")) {
+//                    try {
+//                        Object content = msg.getContent();
+//                        if (content != null) {
+//                            messageContent = content.toString();
+//                        }
+//                    } catch (Exception ex) {
+//                        messageContent = "[Error downloading content]";
+//                        ex.printStackTrace();
+//                    }
+//                }
+//
+//                // print out details of each message
+//                System.out.println("Message #" + (i + 1) + ":");
+//                System.out.println("\t From: " + from);
+//                System.out.println("\t To: " + toList);
+//                System.out.println("\t CC: " + ccList);
+//                System.out.println("\t Subject: " + subject);
+//                System.out.println("\t Sent Date: " + sentDate);
+//                System.out.println("\t Message: " + messageContent);
+//
 
 
             }
