@@ -26,11 +26,11 @@ public class HtmlParser implements Runnable{
     private static short startIndex = 6;
     private static short endIndex = 14;
 
-    @Autowired
     AndroidPushNotificationsService androidPushNotificationsService;
 
     public HtmlParser(String HTMLSTring){
         this.HTMLSTring = HTMLSTring;
+        this.androidPushNotificationsService = new AndroidPushNotificationsService();
     }
 
     public void run() {
@@ -48,7 +48,7 @@ public class HtmlParser implements Runnable{
 
         if(jsonObject.length()>0){
             //send notification
-            androidPushNotificationsService.sendNotification(jsonObject);
+            this.androidPushNotificationsService.sendNotification(jsonObject);
         }
 
         System.out.println("Json length = "+jsonObject.length());
@@ -57,30 +57,40 @@ public class HtmlParser implements Runnable{
 
 
     private void populateJson(String txt, JSONObject jsonObject){
-        int length = txt.length();
-        int halfL = txt.length()/2;
-        int index = 0;
-        //begin iterations from middle of the string and looking for : to crate value for jsonObj
-        for(int j =length/2; j<length; j++){
-            if(txt.charAt(j)==':'){
-                index = j;
-                break;
-            }else if (txt.charAt(halfL)==':'){
-                index = halfL;
-                break;
-            }
-            halfL--;
-        }
 
-        String key = null,val = null;
-        if(index>0){
-            key = txt.substring(0,index);
-            val = txt.substring(index+2,length);
+        String pattern = "[:]+";
+        String[ ] result = txt.split(pattern);
 
-            if(key!=null && val!=null){
-                jsonObject.put(key, val);
-            }
+        if(result.length==2){
+            jsonObject.put(result[0], result[1]);
         }
     }
+
+//    private void populateJson(String txt, JSONObject jsonObject){
+//        int length = txt.length();
+//        int halfL = txt.length()/2;
+//        int index = 0;
+//        //begin iterations from middle of the string and looking for : to crate value for jsonObj
+//        for(int j =length/2; j<length; j++){
+//            if(txt.charAt(j)==':'){
+//                index = j;
+//                break;
+//            }else if (txt.charAt(halfL)==':'){
+//                index = halfL;
+//                break;
+//            }
+//            halfL--;
+//        }
+//
+//        String key = null,val = null;
+//        if(index>0){
+//            key = txt.substring(0,index);
+//            val = txt.substring(index+2,length);
+//
+//            if(key!=null && val!=null){
+//                jsonObject.put(key, val);
+//            }
+//        }
+//    }
 
 }

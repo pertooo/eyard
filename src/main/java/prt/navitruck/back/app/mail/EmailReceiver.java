@@ -2,6 +2,9 @@ package prt.navitruck.back.app.mail;
 
 import com.sun.mail.imap.IdleManager;
 import org.apache.juli.logging.Log;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import prt.navitruck.back.app.service.notification.AndroidPushNotificationsService;
 
 import javax.annotation.Resource;
 import javax.mail.*;
@@ -18,6 +21,8 @@ public class EmailReceiver {
 
     ExecutorService es = Executors.newCachedThreadPool();
 
+    @Autowired
+    private static ApplicationContext applicationContext;
 
     public static void setMailReceiveListener(String protocol, String host, String port,
                                               String userName, String password){

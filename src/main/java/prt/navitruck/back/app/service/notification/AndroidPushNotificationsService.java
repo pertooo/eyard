@@ -19,6 +19,8 @@ public class AndroidPushNotificationsService {
 
     public String sendNotification(JSONObject jsonObject){
 
+        System.out.println("AndroidPushNotificationsService - Send");
+
         JSONObject body = createBoydForNotification(jsonObject);
         HttpEntity<String> request = new HttpEntity<>(body.toString());
 
