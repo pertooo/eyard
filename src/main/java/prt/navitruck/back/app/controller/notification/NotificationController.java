@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import prt.navitruck.back.app.service.notification.AndroidPushNotificationsService;
+import prt.navitruck.back.app.utils.Constants;
 
 
 @RestController
@@ -20,22 +21,12 @@ import prt.navitruck.back.app.service.notification.AndroidPushNotificationsServi
 public class NotificationController {
 
 
-    private final String TOPIC = "'11214' in topics";
 
     @Autowired
     AndroidPushNotificationsService androidPushNotificationsService;
 
     @RequestMapping(value = "/send", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<String> send() throws JSONException {
-
-        JSONObject body = new JSONObject();
-      //  body.put("to", "/topics/" + TOPIC);
-        body.put("condition",  TOPIC);
-        body.put("priority", "high");
-
-        JSONObject notification = new JSONObject();
-        notification.put("title", "JSA Notification");
-        notification.put("body", "Happy Message!");
 
         JSONObject data = new JSONObject();
 
@@ -47,23 +38,10 @@ public class NotificationController {
 
         data.put("price", "925");
 
-      //  body.put("notification", notification);
-        body.put("data", data);
+        String firebaseResponse = androidPushNotificationsService.sendNotification(data);
 
-        HttpEntity<String> request = new HttpEntity<>(body.toString());
-
-        CompletableFuture<String> pushNotification = androidPushNotificationsService.send(request);
-        CompletableFuture.allOf(pushNotification).join();
-
-        try {
-            String firebaseResponse = pushNotification.get();
-
+        if(firebaseResponse!=null)
             return new ResponseEntity<>(firebaseResponse, HttpStatus.OK);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
 
         return new ResponseEntity<>("Push Notification ERROR!", HttpStatus.BAD_REQUEST);
     }

@@ -8,14 +8,26 @@ import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
 import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import prt.navitruck.back.app.service.notification.AndroidPushNotificationsService;
+import prt.navitruck.back.app.utils.Constants;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 public class HtmlParser implements Runnable{
+
 
     private static String HTMLSTring;
     private static short startIndex = 6;
     private static short endIndex = 14;
+
+    @Autowired
+    AndroidPushNotificationsService androidPushNotificationsService;
 
     public HtmlParser(String HTMLSTring){
         this.HTMLSTring = HTMLSTring;
@@ -34,9 +46,15 @@ public class HtmlParser implements Runnable{
             populateJson(list.get(i).text(), jsonObject);
         }
 
+        if(jsonObject.length()>0){
+            //send notification
+            androidPushNotificationsService.sendNotification(jsonObject);
+        }
+
         System.out.println("Json length = "+jsonObject.length());
         System.out.println("Json = "+jsonObject);
     }
+
 
     private void populateJson(String txt, JSONObject jsonObject){
         int length = txt.length();
