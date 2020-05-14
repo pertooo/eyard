@@ -73,6 +73,21 @@ public class Constants {
 
     }
 
+    public enum CargoTruckUserResponse {
+
+        ACCEPTED,
+        REFUSED;
+
+    }
+
+    public enum CargoStatus {
+        NEW,
+        ACTIVE,
+        FINISHED,
+        CANCELED;
+
+    }
+
     public enum ErrorObj {
         NONE(0),
         BAD_REQUEST(400),

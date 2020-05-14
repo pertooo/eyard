@@ -44,16 +44,16 @@ public class EyardApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(EyardApplication.class, args);
 
-		String protocol = "imap";
-		String host = "imap.gmail.com";
-		String port = "993";
-
-
-		String userName = "navitruck2020@gmail.com";
-		String password = "Navitruck@2020";
-
-		EmailReceiver receiver = new EmailReceiver();
-		receiver.setMailReceiveListener(protocol, host, port, userName, password);
+//		String protocol = "imap";
+//		String host = "imap.gmail.com";
+//		String port = "993";
+//
+//
+//		String userName = "navitruck2020@gmail.com";
+//		String password = "Navitruck@2020";
+//
+//		EmailReceiver receiver = new EmailReceiver();
+//		receiver.setMailReceiveListener(protocol, host, port, userName, password);
 
 	}
 

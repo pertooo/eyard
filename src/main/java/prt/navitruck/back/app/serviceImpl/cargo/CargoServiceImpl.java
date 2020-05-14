@@ -23,6 +23,11 @@ public class CargoServiceImpl implements CargoService {
     }
 
     @Override
+    public Cargo update(Cargo cargo) {
+        return cargoRepository.save(cargo);
+    }
+
+    @Override
     public List<Cargo> findAll() {
         return cargoRepository.findAll();
     }

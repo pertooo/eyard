@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import prt.navitruck.back.app.model.entity.User;
 import prt.navitruck.back.app.model.entity.abstr.AbstractEntity;
+import prt.navitruck.back.app.model.entity.truck.TruckUser;
+import prt.navitruck.back.app.utils.Constants;
 
 import javax.persistence.*;
 
@@ -15,9 +17,9 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = {"cargo_id", "user_id"}))
-public class CargoUserJoin extends AbstractEntity {
+public class CargoTruckUserResponse extends AbstractEntity {
 
-    public CargoUserJoin(Cargo cargo, User user){
+    public CargoTruckUserResponse(Cargo cargo, TruckUser user){
         this.cargo = cargo;
         this.user = user;
     }
@@ -28,9 +30,13 @@ public class CargoUserJoin extends AbstractEntity {
 
     @ManyToOne
     @JoinColumn
-    private User user;
+    private TruckUser user;
 
-    @Column(name = "assigned_to_user", nullable = false)
-    private boolean assigned;
+    @Column(name = "user_offer")
+    private double userOffer;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "user_response", nullable = false)
+    private Constants.CargoTruckUserResponse userResponse;
 
 }

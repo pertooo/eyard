@@ -9,6 +9,7 @@ import java.util.List;
 public interface CargoService {
 
     Cargo getCargo(Long id);
+    Cargo update(Cargo carg);
     List<Cargo> findAll();
     Cargo saveCargo(Cargo cargo);
     JSONObject buildJsonFromCargo(Cargo cargo);

@@ -5,35 +5,35 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import prt.navitruck.back.app.errors.EntityNotFoundException;
 import prt.navitruck.back.app.model.entity.cargo.Cargo;
-import prt.navitruck.back.app.model.entity.cargo.CargoUserJoin;
+import prt.navitruck.back.app.model.entity.cargo.CargoTruckUserResponse;
 import prt.navitruck.back.app.repository.cargo.CargoUserJoinRepository;
-import prt.navitruck.back.app.service.cargo.CargoUserJoinService;
+import prt.navitruck.back.app.service.cargo.CargoTruckUserResponseService;
 
 @Service
-public class CargoUserJoinServiceImpl implements CargoUserJoinService {
+public class CargoTruckUserResponseServiceImpl implements CargoTruckUserResponseService {
 
     @Autowired
     private CargoUserJoinRepository cargoUserJoinRepository;
 
     @Override
-    public CargoUserJoin getOne(long id) {
-        return cargoUserJoinRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(CargoUserJoin.class));
+    public CargoTruckUserResponse getOne(long id) {
+        return cargoUserJoinRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(CargoTruckUserResponse.class));
     }
 
     @Override
-    public CargoUserJoin getAssignedByCargo(Cargo cargo) {
+    public CargoTruckUserResponse getAssignedByCargo(Cargo cargo) {
         return cargoUserJoinRepository.findByCargoAndAssigned(cargo, true);
     }
 
     @Override
-    public CargoUserJoin save(CargoUserJoin cargoUserJoin) {
-        return cargoUserJoinRepository.save(cargoUserJoin);
+    public CargoTruckUserResponse save(CargoTruckUserResponse cargoTruckUserResponse) {
+        return cargoUserJoinRepository.save(cargoTruckUserResponse);
     }
 
     @Override
     @Transactional
-    public CargoUserJoin update(CargoUserJoin cargoUserJoin) {
-        return cargoUserJoinRepository.save(cargoUserJoin);
+    public CargoTruckUserResponse update(CargoTruckUserResponse cargoTruckUserResponse) {
+        return cargoUserJoinRepository.save(cargoTruckUserResponse);
     }
 
     @Override

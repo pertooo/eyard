@@ -12,7 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import prt.navitruck.back.app.model.entity.cargo.Cargo;
+import prt.navitruck.back.app.service.cargo.CargoService;
 import prt.navitruck.back.app.service.notification.AndroidPushNotificationsService;
+import prt.navitruck.back.app.serviceImpl.cargo.CargoServiceImpl;
 import prt.navitruck.back.app.utils.Constants;
 
 import java.util.List;
@@ -27,10 +30,12 @@ public class HtmlParser implements Runnable{
     private static short endIndex = 14;
 
     AndroidPushNotificationsService androidPushNotificationsService;
+    CargoService cargoService;
 
     public HtmlParser(String HTMLSTring){
         this.HTMLSTring = HTMLSTring;
         this.androidPushNotificationsService = new AndroidPushNotificationsService();
+        this.cargoService = new CargoServiceImpl();
     }
 
     public void run() {
@@ -47,8 +52,14 @@ public class HtmlParser implements Runnable{
         }
 
         if(jsonObject.length()>0){
-            //send notification
-            this.androidPushNotificationsService.sendNotification(jsonObject);
+            //save Cargo
+            Cargo savedObject = cargoService.saveCargo(new Cargo(jsonObject));
+
+            //send
+            if(savedObject!=null){
+                jsonObject.put("ID",savedObject.getId());
+                this.androidPushNotificationsService.sendNotification(jsonObject);
+            }
         }
 
         System.out.println("Json length = "+jsonObject.length());
@@ -65,6 +76,7 @@ public class HtmlParser implements Runnable{
             jsonObject.put(result[0], result[1]);
         }
     }
+
 
 //    private void populateJson(String txt, JSONObject jsonObject){
 //        int length = txt.length();
