@@ -30,6 +30,14 @@ public class EyardApplication {
 	@Value("${ENC_KEY}")
 	private String encKey;
 
+	static String protocol = "imap";
+	static String host = "imap.gmail.com";
+	static String port = "993";
+
+	static String userName = "navitruck2020@gmail.com";
+	static String password = "Navitruck@2020";
+
+
 	@Bean
 	public TokenAuthenticationService tokenAuthService() {
 		return new TokenAuthenticationService(redisService,encKey);
@@ -44,13 +52,6 @@ public class EyardApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(EyardApplication.class, args);
 
-//		String protocol = "imap";
-//		String host = "imap.gmail.com";
-//		String port = "993";
-//
-//
-//		String userName = "navitruck2020@gmail.com";
-//		String password = "Navitruck@2020";
 //
 //		EmailReceiver receiver = new EmailReceiver();
 //		receiver.setMailReceiveListener(protocol, host, port, userName, password);

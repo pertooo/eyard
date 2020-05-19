@@ -8,5 +8,4 @@ public interface CargoTruckUserResponseService {
     CargoTruckUserResponse getAssignedByCargo(Cargo cargo);
     CargoTruckUserResponse save(CargoTruckUserResponse cargoTruckUserResponse);
     CargoTruckUserResponse update(CargoTruckUserResponse cargoTruckUserResponse);
-    int assignUserToCargo(long userId, long cargoId);
 }

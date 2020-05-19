@@ -4,36 +4,42 @@ import com.sun.mail.imap.IdleManager;
 import org.apache.juli.logging.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import prt.navitruck.back.app.service.cargo.CargoService;
 import prt.navitruck.back.app.service.notification.AndroidPushNotificationsService;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.mail.*;
 import javax.mail.Message.RecipientType;
 import javax.mail.event.MessageCountAdapter;
 import javax.mail.event.MessageCountEvent;
+import javax.persistence.Column;
 import java.io.IOException;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+@Component
 public class EmailReceiver {
 
-    ExecutorService es = Executors.newCachedThreadPool();
-
     @Autowired
-    private static ApplicationContext applicationContext;
+    HtmlParserService htmlParserService;
 
-    public static void setMailReceiveListener(String protocol, String host, String port,
-                                              String userName, String password){
+    String protocol = "imap";
+    String host = "imap.gmail.com";
+    String port = "993";
+    String userName = "navitruck2020@gmail.com";
+    String password = "Navitruck@2020";
+
+    @PostConstruct
+    public void test(){
         Properties properties = getServerProperties(protocol, host, port);
         Session session = Session.getDefaultInstance(properties);
 
         ExecutorService es = Executors.newCachedThreadPool();
-
-//		Properties props = session.getProperties();
-//		props.put("mail.event.scope", "session"); // or "application"
-//		props.put("mail.event.executor", es);
 
         try {
             // connects to the message store
@@ -77,7 +83,60 @@ public class EmailReceiver {
         }
     }
 
-    private static void readMail( Message[] messages){
+//    public static void setMailReceiveListener(String protocol, String host, String port,
+//                                              String userName, String password){
+//        Properties properties = getServerProperties(protocol, host, port);
+//        Session session = Session.getDefaultInstance(properties);
+//
+//        ExecutorService es = Executors.newCachedThreadPool();
+//
+////		Properties props = session.getProperties();
+////		props.put("mail.event.scope", "session"); // or "application"
+////		props.put("mail.event.executor", es);
+//
+//        try {
+//            // connects to the message store
+//            Store store = session.getStore(protocol);
+//            store.connect(userName, password);
+//
+//            final IdleManager idleManager = new IdleManager(session, es);
+//
+//
+//            // opens the inbox folder
+//            Folder folderInbox = store.getFolder("INBOX");
+//            folderInbox.open(Folder.READ_ONLY);
+//
+//            System.out.println("Setting Listener");
+//            folderInbox.addMessageCountListener(new MessageCountAdapter() {
+//                public void messagesAdded(MessageCountEvent ev) {
+//                    System.out.println("messagesAdded");
+//
+//                    Message[] msgs = ev.getMessages();
+//                    System.out.println("Folder: " + folderInbox +
+//                            " got " + msgs.length + " new messages");
+//                    readMail(msgs);
+//                    try {
+//                        // process new messages
+//                        idleManager.watch(folderInbox); // keep watching for new messages
+//                    } catch (MessagingException mex) {
+//                        // handle exception related to the Folder
+//                    }
+//                }
+//            });
+//            idleManager.watch(folderInbox);
+//
+//        }catch (NoSuchProviderException ex) {
+//            System.out.println("No provider for protocol: " + protocol);
+//            ex.printStackTrace();
+//        }catch (MessagingException ex) {
+//            System.out.println("Could not connect to the message store");
+//            ex.printStackTrace();
+//        }catch (IOException e){
+//            e.printStackTrace();
+//        }
+//    }
+
+    private void readMail( Message[] messages){
         try{
             for (int i = 0; i < messages.length; i++) {
                 Message msg = messages[i];
@@ -113,10 +172,18 @@ public class EmailReceiver {
                         }
                         Object o2 = b.getContent();
                         if (o2 instanceof String) {
+                            htmlParserService.populateJson(o2.toString());
+
                             System.out.println("Yuhuuu here is the string");
-                            HtmlParser htmlParser = new HtmlParser(o2.toString());
-                            Thread t = new Thread(htmlParser);
-                            t.start();
+                      //      htmlParserService.runnable(o2.toString());
+
+//                            HtmlParser htmlParser = new HtmlParser(o2.toString(), cargoServiceStat);
+////                            applicationContext.getAutowireCapableBeanFactory().autowireBean(htmlParser);
+////                            applicationContext.getAutowireCapableBeanFactory().initializeBean(htmlParser, "AndroidPushNotificationsService");
+////                            applicationContext.getAutowireCapableBeanFactory().initializeBean(htmlParser, "CargoService");
+////                            applicationContext.getAutowireCapableBeanFactory().initializeBean(htmlParser, "CargoServiceImpl");
+//                            Thread t = new Thread(htmlParser);
+//                            t.start();
                         }
 
                     }

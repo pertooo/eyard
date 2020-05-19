@@ -77,9 +77,9 @@ public class Cargo extends AbstractEntity {
         this.deliveryDate = null;//obj.getString("Delivery date (EST)");
         this.pickUpDate = null;//obj.getString("Pick-up date (EST)");
 
-        this.miles = obj.getInt("Miles");
-        this.weight = obj.getInt("Weight");
-        this.pieces = obj.getInt("Weight");
+        this.miles = Integer.parseInt(obj.getString("Miles"));
+        this.weight = Integer.parseInt(obj.getString("Weight"));
+        this.pieces = Integer.parseInt(obj.getString("Pieces"));
         this.dims = obj.getString("Dims");
         this.status = Constants.CargoStatus.NEW;
     }

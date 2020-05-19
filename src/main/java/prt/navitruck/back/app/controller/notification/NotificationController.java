@@ -38,10 +38,20 @@ public class NotificationController {
 
         data.put("price", "925");
 
-        String firebaseResponse = androidPushNotificationsService.sendNotification(data);
+        CompletableFuture<String> firebaseResponse = androidPushNotificationsService.sendNotification(data);
 
-        if(firebaseResponse!=null)
-            return new ResponseEntity<>(firebaseResponse, HttpStatus.OK);
+        try {
+            String firebaseResponseStr = firebaseResponse.get();
+
+            if(firebaseResponse!=null)
+                return new ResponseEntity<>(firebaseResponseStr, HttpStatus.OK);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+
 
         return new ResponseEntity<>("Push Notification ERROR!", HttpStatus.BAD_REQUEST);
     }

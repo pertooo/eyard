@@ -42,6 +42,7 @@ public class CargoController extends AbstractController<Cargo, Long> {
 
     @PutMapping("/save")
     public ResponseEntity save(@RequestBody Cargo cargo) {
+        cargo.setStatus(Constants.CargoStatus.NEW);
         Cargo savedObject = cargoService.saveCargo(cargo);
 
         if(cargo.isSendImmediately()) { // send notification

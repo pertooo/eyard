@@ -2,6 +2,7 @@ package prt.navitruck.back.app.serviceImpl.cargo;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import prt.navitruck.back.app.model.entity.cargo.Cargo;
 import prt.navitruck.back.app.repository.cargo.CargoRepository;
@@ -9,6 +10,7 @@ import prt.navitruck.back.app.service.cargo.CargoService;
 import prt.navitruck.back.app.utils.Constants;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 public class CargoServiceImpl implements CargoService {
@@ -31,6 +33,12 @@ public class CargoServiceImpl implements CargoService {
     public List<Cargo> findAll() {
         return cargoRepository.findAll();
     }
+
+    @Override
+    public CompletableFuture<Cargo> saveCargoAsync(Cargo cargo) {
+        return CompletableFuture.completedFuture(cargoRepository.save(cargo));
+    }
+
 
     @Override
     public Cargo saveCargo(Cargo cargo) {

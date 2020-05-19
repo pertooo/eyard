@@ -22,7 +22,7 @@ public class CargoTruckUserResponseServiceImpl implements CargoTruckUserResponse
 
     @Override
     public CargoTruckUserResponse getAssignedByCargo(Cargo cargo) {
-        return cargoUserJoinRepository.findByCargoAndAssigned(cargo, true);
+        return  null;//cargoUserJoinRepository.findByCargoAndAssigned(cargo, true);
     }
 
     @Override
@@ -34,12 +34,6 @@ public class CargoTruckUserResponseServiceImpl implements CargoTruckUserResponse
     @Transactional
     public CargoTruckUserResponse update(CargoTruckUserResponse cargoTruckUserResponse) {
         return cargoUserJoinRepository.save(cargoTruckUserResponse);
-    }
-
-    @Override
-    @Transactional
-    public int assignUserToCargo(long userId, long cargoId) {
-        return cargoUserJoinRepository.setAssigned(userId, cargoId);
     }
 
 

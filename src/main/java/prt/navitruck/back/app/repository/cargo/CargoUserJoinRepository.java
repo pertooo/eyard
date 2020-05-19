@@ -9,11 +9,6 @@ import prt.navitruck.back.app.repository.abstr.AbstractRepository;
 
 public interface CargoUserJoinRepository extends AbstractRepository<CargoTruckUserResponse, Long> {
 
-
-    @Modifying
-    @Query("update CargoTruckUserResponse t set t.assigned = true where t.user.id = :userId and t.cargo.id = :cargoId")
-    int setAssigned(@Param("userId") Long userId, @Param("cargoId") Long cargoId);
-
-    CargoTruckUserResponse findByCargoAndAssigned(Cargo cargo, Boolean assigned);
+   // CargoTruckUserResponse findByCargoAndAssigned(Cargo cargo, Boolean assigned);
 
 }

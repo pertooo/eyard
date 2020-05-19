@@ -9,6 +9,8 @@ import org.jsoup.nodes.Node;
 import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,10 +20,13 @@ import prt.navitruck.back.app.service.notification.AndroidPushNotificationsServi
 import prt.navitruck.back.app.serviceImpl.cargo.CargoServiceImpl;
 import prt.navitruck.back.app.utils.Constants;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
+
+@Scope("prototype")
 public class HtmlParser implements Runnable{
 
 
@@ -29,15 +34,18 @@ public class HtmlParser implements Runnable{
     private static short startIndex = 6;
     private static short endIndex = 14;
 
-    AndroidPushNotificationsService androidPushNotificationsService;
+//    @Autowired
+//    AndroidPushNotificationsService androidPushNotificationsService;
+//
+//    @Autowired
     CargoService cargoService;
 
-    public HtmlParser(String HTMLSTring){
+    public HtmlParser(String HTMLSTring, CargoService cargoService){
         this.HTMLSTring = HTMLSTring;
-        this.androidPushNotificationsService = new AndroidPushNotificationsService();
-        this.cargoService = new CargoServiceImpl();
+        this.cargoService = cargoService;
     }
 
+    @Scope("prototype")
     public void run() {
         Document html = Jsoup.parse(HTMLSTring);
         Elements td = html.select("td");
@@ -45,7 +53,6 @@ public class HtmlParser implements Runnable{
         List<TextNode> list = currentTd.textNodes();
 
         JSONObject jsonObject = new JSONObject();
-
         for(int i = startIndex; i< endIndex; i++){
             System.out.println(list.get(i)); 
             populateJson(list.get(i).text(), jsonObject);
@@ -53,12 +60,13 @@ public class HtmlParser implements Runnable{
 
         if(jsonObject.length()>0){
             //save Cargo
-            Cargo savedObject = cargoService.saveCargo(new Cargo(jsonObject));
+            Cargo cargo = new Cargo(jsonObject);
+            Cargo savedObject = cargoService.saveCargo(cargo);
 
             //send
             if(savedObject!=null){
                 jsonObject.put("ID",savedObject.getId());
-                this.androidPushNotificationsService.sendNotification(jsonObject);
+            //    this.androidPushNotificationsService.sendNotification(jsonObject);
             }
         }
 
@@ -73,7 +81,7 @@ public class HtmlParser implements Runnable{
         String[ ] result = txt.split(pattern);
 
         if(result.length==2){
-            jsonObject.put(result[0], result[1]);
+            jsonObject.put(result[0], result[1].substring(1));
         }
     }
 

@@ -4,6 +4,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 import org.json.JSONObject;
+import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.scheduling.annotation.Async;
@@ -17,7 +18,8 @@ public class AndroidPushNotificationsService {
     private static final String FIREBASE_SERVER_KEY = "AAAAywMza6Q:APA91bEr2T3Nb5bDOalEOC88w2WM8xoWV8-n3A5NEGXnT4MdyW2JxUWIcSAIQyAv9C143xeg4mAjym-yp53kQCEfIB4kDfyTW1RCuglpXuqVhPsqeTEQthPNp_YbW3RPO5FYHlEUIBLI";
     private static final String FIREBASE_API_URL = "https://fcm.googleapis.com/fcm/send";
 
-    public String sendNotification(JSONObject jsonObject){
+    @Async
+    public CompletableFuture<String> sendNotification(JSONObject jsonObject){
 
         System.out.println("AndroidPushNotificationsService - Send");
 
@@ -29,7 +31,7 @@ public class AndroidPushNotificationsService {
 
         try {
             String firebaseResponse = pushNotification.get();
-            return firebaseResponse;
+            return CompletableFuture.completedFuture(firebaseResponse);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
