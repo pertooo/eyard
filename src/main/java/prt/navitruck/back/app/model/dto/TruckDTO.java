@@ -13,6 +13,7 @@ import prt.navitruck.back.app.utils.Constants;
 @NoArgsConstructor
 public class TruckDTO {
 
+    private String serialNum;
     private int make;
     private int model;
     private Constants.BodyType bodyType;

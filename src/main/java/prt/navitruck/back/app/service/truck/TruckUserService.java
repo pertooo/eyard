@@ -9,4 +9,5 @@ public interface TruckUserService {
     int reset(long ID);
     TruckUser save(TruckUser truckUser);
     TruckUser getUser(Long id);
+    boolean assign(long truckID, long driverID);
 }

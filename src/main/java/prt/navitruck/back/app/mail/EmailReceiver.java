@@ -173,17 +173,6 @@ public class EmailReceiver {
                         Object o2 = b.getContent();
                         if (o2 instanceof String) {
                             htmlParserService.populateJson(o2.toString());
-
-                            System.out.println("Yuhuuu here is the string");
-                      //      htmlParserService.runnable(o2.toString());
-
-//                            HtmlParser htmlParser = new HtmlParser(o2.toString(), cargoServiceStat);
-////                            applicationContext.getAutowireCapableBeanFactory().autowireBean(htmlParser);
-////                            applicationContext.getAutowireCapableBeanFactory().initializeBean(htmlParser, "AndroidPushNotificationsService");
-////                            applicationContext.getAutowireCapableBeanFactory().initializeBean(htmlParser, "CargoService");
-////                            applicationContext.getAutowireCapableBeanFactory().initializeBean(htmlParser, "CargoServiceImpl");
-//                            Thread t = new Thread(htmlParser);
-//                            t.start();
                         }
 
                     }

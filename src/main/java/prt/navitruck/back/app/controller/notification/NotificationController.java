@@ -30,7 +30,7 @@ public class NotificationController {
 
         JSONObject data = new JSONObject();
 
-        data.put("addressFrom", "2871 Cropsey Av. AP #1, Brooklyn, NY, US 11214");
+        data.put("addressFrom", "1231231231 Cropsey Av. AP #1, Brooklyn, NY, US 11214");
         data.put("addressTo", "6421 George Washington Av. 1/3, New York, Manhattan, US 45123");
 
         data.put("loadTime", "4/11/2020 16:00");

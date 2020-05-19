@@ -85,44 +85,9 @@ public class HtmlParserService {
         return  CompletableFuture.completedFuture(false);
     }
 
-    public Runnable runnable(String HTMLSTring){
 
-        return new Runnable() {
-            public void run() {
-                System.out.println("New Runnable");
-                Document html = Jsoup.parse(HTMLSTring);
-                Elements td = html.select("td");
-                Element currentTd = td.get(2).child(0);
-                List<TextNode> list = currentTd.textNodes();
-
-                JSONObject jsonObject = new JSONObject();
-
-                for(int i = startIndex; i< endIndex; i++){
-                    System.out.println(list.get(i));
-                    populateJson(list.get(i).text(), jsonObject);
-                }
-
-                if(jsonObject.length()>0){
-                    //save Cargo
-                    Cargo cargo = new Cargo(jsonObject);
-                    Cargo savedObject = cargoService.saveCargo(cargo);
-
-                    //send
-                    if(savedObject!=null){
-                        jsonObject.put("ID",savedObject.getId());
-                        androidPushNotificationsService.sendNotification(jsonObject);
-                    }
-                }
-
-                System.out.println("Json length = "+jsonObject.length());
-                System.out.println("Json = "+jsonObject);
-            }
-        };
-    }
-
-
-
-    private void populateJson(String txt, JSONObject jsonObject){
+    @Async
+    void populateJson(String txt, JSONObject jsonObject){
 
         String pattern = "[:]+";
         String[ ] result = txt.split(pattern);

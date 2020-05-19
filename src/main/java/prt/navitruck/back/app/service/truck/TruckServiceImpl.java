@@ -32,12 +32,12 @@ public class TruckServiceImpl implements TruckService{
                         new TruckParams(truckDTO.getParamName(), truckDTO.getMaxWeight(),
                         truckDTO.getLength(), truckDTO.getWidth(), truckDTO.getHeight()));
 
-                Truck truck = new Truck(new Dictionary(truckDTO.getMake()), new Dictionary(truckDTO.getModel()),
+                Truck truck = new Truck(truckDTO.getSerialNum(), new Dictionary(truckDTO.getMake()), new Dictionary(truckDTO.getModel()),
                         truckDTO.getTruckType(),truckDTO.getBodyType(), truckDTO.getYear(), truckParams);
 
                 truckRepository.save(truck);
             }else{
-                Truck truck = new Truck(new Dictionary(truckDTO.getMake()), new Dictionary(truckDTO.getModel()),
+                Truck truck = new Truck(truckDTO.getSerialNum(),new Dictionary(truckDTO.getMake()), new Dictionary(truckDTO.getModel()),
                         truckDTO.getTruckType(), truckDTO.getBodyType(), truckDTO.getYear(),
                         new TruckParams(truckDTO.getTruckParam()));
 
@@ -53,5 +53,10 @@ public class TruckServiceImpl implements TruckService{
     @Override
     public List<ComboDTO> getCombo() {
         return truckRepository.getCombo();
+    }
+
+    @Override
+    public Truck getOne(long id) {
+        return truckRepository.getOne(id);
     }
 }

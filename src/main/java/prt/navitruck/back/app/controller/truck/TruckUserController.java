@@ -26,7 +26,7 @@ public class TruckUserController extends AbstractController<TruckUser, Long> {
                                @RequestParam boolean available) {
         System.out.println("save truckUser");
 
-        TruckUser truckUser = new TruckUser(username.toUpperCase(), null, team, available, false, true,null);
+        TruckUser truckUser = new TruckUser(null, username.toUpperCase(), null, team, available, false, true);
 
         TruckUser savedObject = truckUserService.save(truckUser);
         if (savedObject != null) {
@@ -46,6 +46,16 @@ public class TruckUserController extends AbstractController<TruckUser, Long> {
             e.printStackTrace();
         }
 
+        return ResponseEntity.notFound().build();
+    }
+
+    @PostMapping("/assign")
+    public ResponseEntity assignDriverToTruck(@RequestParam long truckID, @RequestParam long driverID) {
+        try {
+            return ResponseEntity.ok(ResponseDTO.builder().success(truckUserService.assign(truckID, driverID)).build());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return ResponseEntity.notFound().build();
     }
 }

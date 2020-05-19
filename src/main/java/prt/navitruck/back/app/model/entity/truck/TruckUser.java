@@ -15,6 +15,9 @@ import javax.persistence.*;
 @Table(name = "truck_user")
 public class TruckUser extends AbstractEntity {
 
+    @OneToOne(fetch=FetchType.EAGER, cascade={CascadeType.ALL })
+    @JoinColumn(name = "truck_id", nullable = true)
+    private Truck truck;
 
     @Column(name = "username", nullable = false, unique = true)
     private String username;
@@ -34,8 +37,4 @@ public class TruckUser extends AbstractEntity {
     @Column(name = "active", nullable = false)
     private boolean active;
 
-    @OneToOne
-    @JoinColumn
-    @Nullable
-    private Truck truck;
 }

@@ -8,6 +8,7 @@ import prt.navitruck.back.app.repository.abstr.AbstractRepository;
 import java.util.List;
 
 public interface TruckRepository extends AbstractRepository<Truck, Long> {
-    @Query("select new prt.navitruck.back.app.model.dto.ComboDTO(t.id, t.make.objValue) from Truck t")
+    @Query("select new prt.navitruck.back.app.model.dto.ComboDTO(t.id, t.serialNum) from Truck t" +
+            " where t.serialNum <> '' ")
     List<ComboDTO> getCombo();
 }

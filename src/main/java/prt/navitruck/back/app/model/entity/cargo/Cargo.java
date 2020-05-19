@@ -62,10 +62,10 @@ public class Cargo extends AbstractEntity {
     private Constants.CargoStatus status;
 
     @Transient
-    private String pickupTimeStr;
+    private String deliveryDateStr;
 
     @Transient
-    private String unloadTimeStr;
+    private String pickUpDateStr;
 
     @Transient
     private boolean sendImmediately;
@@ -74,8 +74,8 @@ public class Cargo extends AbstractEntity {
         this.pickUpAt = obj.getString("Pick-up at");
         this.deliveryTo = obj.getString("Deliver to");
 
-        this.deliveryDate = null;//obj.getString("Delivery date (EST)");
-        this.pickUpDate = null;//obj.getString("Pick-up date (EST)");
+        this.deliveryDateStr = obj.getString("Delivery date (EST)");
+        this.pickUpDateStr = obj.getString("Pick-up date (EST)");
 
         this.miles = Integer.parseInt(obj.getString("Miles"));
         this.weight = Integer.parseInt(obj.getString("Weight"));

@@ -60,14 +60,17 @@ public class CargoServiceImpl implements CargoService {
 
             JSONObject data = new JSONObject();
 
-            data.put("addressFrom", cargo.getPickUpDate());
-            data.put("addressTo", cargo.getDeliveryTo());
+            data.put("pickUpAt", cargo.getPickUpDate());
+            data.put("deliveryTo", cargo.getDeliveryTo());
 
-            data.put("loadTime", cargo.getPickupTimeStr());
-            data.put("unloadTime", cargo.getUnloadTimeStr());
+            data.put("pickUpDateStr", cargo.getPickUpDate());
+            data.put("deliveryDateStr", cargo.getDeliveryTo());
 
-            data.put("price", cargo.getFee());
+            data.put("fee", cargo.getFee());
             data.put("weight", cargo.getWeight());
+            data.put("pieces", cargo.getPieces());
+            data.put("miles", cargo.getMiles());
+
 
             //  body.put("notification", notification);
             body.put("data", data);
