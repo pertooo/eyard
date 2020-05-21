@@ -62,24 +62,30 @@ public class HtmlParserService {
     public CompletableFuture<Boolean> sendNotification(JSONObject jsonObject){
 
         if(jsonObject.length()>0){
+            System.out.println("json Str - "+jsonObject.toString());
             //save Cargo
             Cargo cargo = new Cargo(jsonObject);
-            CompletableFuture<Cargo> savedObject = cargoService.saveCargoAsync(cargo);
+            System.out.println(cargoService);
+            if(cargo!=null){
+                CompletableFuture<Cargo> savedObject = cargoService.saveCargoAsync(cargo);
 
-            //send
-            if(savedObject!=null){
-                try{
-                    Cargo c = savedObject.get();
-                    jsonObject.put("ID",c.getId());
-                    androidPushNotificationsService.sendNotification(jsonObject);
+                //send
+                if(savedObject!=null){
+                    try{
+                        Cargo c = savedObject.get();
+                        jsonObject.put("ID",c.getId());
+                        androidPushNotificationsService.sendNotification(jsonObject);
 
-                }catch (Exception e){
-                    e.printStackTrace();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+
+                    System.out.println("Well Done");
+                    return  CompletableFuture.completedFuture(true);
                 }
-
             }
-            System.out.println("Well Done");
-            return  CompletableFuture.completedFuture(true);
+
+            return  CompletableFuture.completedFuture(false);
         }
         System.out.println("Fuck");
         return  CompletableFuture.completedFuture(false);

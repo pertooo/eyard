@@ -47,11 +47,8 @@ public class CargoController extends AbstractController<Cargo, Long> {
 
         if(cargo.isSendImmediately()) { // send notification
             try {
-                JSONObject body = cargoService.buildJsonFromCargo(savedObject);
-                HttpEntity<String> request = new HttpEntity<>(body.toString());
-
-                CompletableFuture<String> pushNotification = androidPushNotificationsService.send(request);
-                CompletableFuture.allOf(pushNotification).join();
+                JSONObject data = cargoService.buildJsonFromCargo(savedObject);
+                androidPushNotificationsService.sendNotification(data);
             }catch (Exception e){
                 e.printStackTrace();
             }

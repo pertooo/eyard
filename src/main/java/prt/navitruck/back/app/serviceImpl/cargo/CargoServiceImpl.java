@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @Service
+@Scope("prototype")
 public class CargoServiceImpl implements CargoService {
 
     @Autowired
@@ -47,18 +48,18 @@ public class CargoServiceImpl implements CargoService {
 
     @Override
     public JSONObject buildJsonFromCargo(Cargo cargo) {
-        JSONObject body = new JSONObject();
+        JSONObject data = new JSONObject();
 
         try {
             //  body.put("to", "/topics/" + TOPIC);
-            body.put("condition", Constants.empty_string);
-            body.put("priority", "high");
+//            body.put("condition", Constants.empty_string);
+//            body.put("priority", "high");
 
-            JSONObject notification = new JSONObject();
-            notification.put("title", "JSA Notification");
-            notification.put("body", "Happy Message!");
+//            JSONObject notification = new JSONObject();
+//            notification.put("title", "JSA Notification");
+//            notification.put("body", "Happy Message!");
 
-            JSONObject data = new JSONObject();
+         //   JSONObject data = new JSONObject();
 
             data.put("pickUpAt", cargo.getPickUpDate());
             data.put("deliveryTo", cargo.getDeliveryTo());
@@ -73,11 +74,11 @@ public class CargoServiceImpl implements CargoService {
 
 
             //  body.put("notification", notification);
-            body.put("data", data);
+         //   body.put("data", data);
 
         }catch (Exception e){
             e.printStackTrace();
         }
-        return body;
+        return data;
     }
 }

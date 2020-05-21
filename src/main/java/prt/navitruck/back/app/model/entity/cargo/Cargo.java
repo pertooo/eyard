@@ -71,16 +71,23 @@ public class Cargo extends AbstractEntity {
     private boolean sendImmediately;
 
     public Cargo(JSONObject obj){
-        this.pickUpAt = obj.getString("Pick-up at");
-        this.deliveryTo = obj.getString("Deliver to");
+        System.out.println("New Cargo from JSON");
+        try{
+            this.pickUpAt = obj.getString("Pick-up at");
+            this.deliveryTo = obj.getString("Deliver to");
 
-        this.deliveryDateStr = obj.getString("Delivery date (EST)");
-        this.pickUpDateStr = obj.getString("Pick-up date (EST)");
+            this.deliveryDateStr = null; //obj.getString("Delivery date (EST)");
+            this.pickUpDateStr = null; //obj.getString("Pick-up date (EST)");
 
-        this.miles = Integer.parseInt(obj.getString("Miles"));
-        this.weight = Integer.parseInt(obj.getString("Weight"));
-        this.pieces = Integer.parseInt(obj.getString("Pieces"));
-        this.dims = obj.getString("Dims");
-        this.status = Constants.CargoStatus.NEW;
+            this.miles = Integer.parseInt(obj.getString("Miles"));
+            this.weight = Integer.parseInt(obj.getString("Weight"));
+            this.pieces = Integer.parseInt(obj.getString("Pieces"));
+            this.dims = obj.getString("Dims");
+            this.status = Constants.CargoStatus.NEW;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        System.out.println("New Cargo from JSON DONE");
     }
 }

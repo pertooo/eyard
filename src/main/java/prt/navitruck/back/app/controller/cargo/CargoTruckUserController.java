@@ -49,7 +49,7 @@ public class CargoTruckUserController extends AbstractController<CargoTruckUserR
                                  @RequestParam boolean accepted) {
 
         Cargo cargo = cargoService.getCargo(cargoId);
-        TruckUser truckUser = truckUserService.getUser(1l);
+        TruckUser truckUser = truckUserService.getUser(userId);
         System.out.println("Task task - "+ cargo.getDeliveryTo());
 
         List<String> errors = null;
